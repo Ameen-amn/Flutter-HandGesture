@@ -26,15 +26,14 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     loadCamer();
-    loadmodel();
-
-    // loadmodel();
+  //  loadmodel();
   }
 
   @override
   void dispose() async {
     super.initState();
     await tfl.Tflite.close();
+
     cameraController?.dispose();
   }
 
@@ -43,17 +42,17 @@ class _HomeState extends State<Home> {
     cameraController!.initialize().then((value) {
       if (!mounted) {
         return;
-      } else {
+      } 
         setState(() {
           cameraController!.startImageStream((imageStream) {
             if (!isWorking) {
               isWorking = true;
               cameraImage = imageStream;
-            }
             runModel();
+            }
           });
         });
-      }
+      
     });
   }
 
@@ -91,7 +90,7 @@ class _HomeState extends State<Home> {
     }
   } */
 
-   bool isModelBusy = false;
+  bool isModelBusy = false;
 
   runModel() async {
     if (cameraImage != null && !isModelBusy) {
@@ -102,24 +101,32 @@ class _HomeState extends State<Home> {
           //return the byte form of the plane
           return plane.bytes;
         }).toList(),
+        
         imageHeight: cameraImage!.height,
         imageWidth: cameraImage!.width,
         imageMean: 127.5,
         imageStd: 127.5,
         rotation: 90,
-        numResults: 2,
+        numResults: 3,
         threshold: 0.1,
         asynch: true,
       );
 
       isModelBusy = false;
-      print("something wodking");
       predictions!.forEach((element) {
         setState(() {
-          output = element['label'];
+          output = element['label'].toString();
           print("out isss *********${output.toString()}");
         });
       });
+      /* if (predictions != null && predictions.isNotEmpty) {
+      final newOutput = predictions[0]['label'];
+      if (newOutput != output) {
+        setState(() {
+          output = newOutput;
+        });
+      }
+    } */
     }
   }
 
