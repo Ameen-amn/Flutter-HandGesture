@@ -17,11 +17,7 @@ class _HomeState extends State<Home> {
   CameraImage? cameraImage;
   CameraController? cameraController;
   bool isWorking = false;
-  /* late CameraController _controller;
-  late CameraImage _savedImage;
-  late tl.Interpreter _interpreter;
-  late List<String> _labels;
-  bool _isDetecting = false; */
+ 
   @override
   void initState() {
     super.initState();
